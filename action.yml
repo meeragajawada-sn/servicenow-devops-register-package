@@ -1,0 +1,33 @@
+name: 'ServiceNow DevOps Register Package'
+description: 'Send Package details to ServiceNow Devops'
+inputs:
+  devops-integration-user-name:
+    description: 'ServiceNow Devops Integration User Name'
+    required: true
+  devops-integration-user-password:
+    description: 'ServiceNow Devops Integration User Password'
+    required: true
+  instance-name: 
+    description: 'ServiceNow Instance Name'
+    required: true
+  tool-id:
+    description: 'Orchestration Tool Id of the tool created in ServiceNow'
+    required: true
+  context-github:
+    description: 'Github Context'
+    required: true
+  artifacts:
+    description: 'List of Artifacts in JSON format'
+    required: true
+  package-name:
+    description: 'Name of the Package that contains list of artifacts'
+    required: true
+  job-name:
+    description: 'Display Name of Job'
+    required: true
+branding:
+  icon: 'refresh-ccw'
+  color: 'green'
+runs: 
+  using: 'node12'
+  main: 'dist/index.js'
