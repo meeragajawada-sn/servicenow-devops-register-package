@@ -1,4 +1,4 @@
-# ServiceNow DevOps Register Package GitHub Action
+# ServiceNow Register Package GitHub Action
 
 This custom action needs to be added at step level in a job to register package details in ServiceNow instance.
 
@@ -8,13 +8,13 @@ This custom action needs to be added at step level in a job to register package 
 - instance URL for your ServiceNow dev, test, prod, etc. environments
 - tool_id of your GitHub tool created in ServiceNow DevOps
 
-## Step 2: Configure Secrets in your GitHub Ogranization or GitHub Repository
+## Step 2: Configure Secrets in your GitHub Ogranization or GitHub repository
 On GitHub, go in your organization settings or repository settings, click on the _Secrets > Actions_ and create a new secret.
 
 Create secrets called 
 - `SN_DEVOPS_USER`
 - `SN_DEVOPS_PASSWORD`
-- `SN_INSTANCE_NAME` only the **domain** string is required from your ServiceNow instance URL, for example https://**domain**.service-now.com
+- `SN_INSTANCE_URL` your ServiceNow instance URL, for example **https://test.service-now.com**
 - `SN_ORCHESTRATION_TOOL_ID` only the **sys_id** is required for the GitHub tool created in your ServiceNow instance
 
 ## Step 3: Configure the GitHub Action if need to adapt for your needs or workflows
@@ -23,12 +23,12 @@ registerpackage:
     name: Register Package
     runs-on: ubuntu-latest
     steps:
-      - name: Register Package Step
+      - name: ServiceNow Register Package
         uses: ServiceNow/servicenow-devops-register-package@v1
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-passwd: ${{ secrets.SN_DEVOPS_PASSWORD }}
-          instance-name: ${{ secrets.SN_INSTANCE_NAME }}
+          instance-url: ${{ secrets.SN_INSTANCE_URL }}
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           job-name: 'Register Package'
@@ -47,9 +47,9 @@ The values for secrets should be setup in Step 1. Secrets should be created in S
 
 **Required**  DevOps Integration User Password to ServiceNow instance. 
 
-### `instance-name`
+### `instance-url`
 
-**Required**  Name of ServiceNow instance to send register package notification. 
+**Required**  URL of ServiceNow instance to register package details. 
 
 ### `tool-id`
 
@@ -61,11 +61,11 @@ The values for secrets should be setup in Step 1. Secrets should be created in S
 
 ### `job-name`
 
-**Required**  Display name of the job given for attribute _name_ in which _steps_ have been added for register package custom action.
+**Required**  Display name of the job given for attribute _name_ in which _steps_ have been added for ServiceNow register package custom action.
 
 ### `artifacts`
 
-**Required**  The list of artifacts to be registered in ServiceNow instance. Each artifact is a JSON object surrounded by curly braces _{}_ containing key-value pair separated by a comma _,_. A key-value pair consists of a key and a value separated by a colon _:_. The keys supported in key-value pair are _name_, _version_, _semanticVersion_, _repositoryName_ key-value pair separated by comma surrounded by curly braces {}. For example, '[{"name": "com:firstrepo","version": "1.13","semanticVersion": "1.13.0","repositoryName": "sample"}]'
+**Required**  The list of artifacts to be registered in ServiceNow instance. Each artifact is a JSON object surrounded by curly braces _{}_ containing key-value pair separated by a comma _,_. A key-value pair consists of a key and a value separated by a colon _:_. The keys supported in key-value pair are _name_, _version_, _semanticVersion_, _repositoryName_ key-value pair separated by comma surrounded by curly braces {}. For example, '[{"name": "com:firstrepo","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
 
 ### `package-name`
 
@@ -74,10 +74,12 @@ The values for secrets should be setup in Step 1. Secrets should be created in S
 ## Outputs
 No outputs produced.
 
+# Notices
+
 ## Support Model
 
-ServiceNow built this custom action with the intent to help customers get started faster in integrating ServiceNow DevOps Change with GitHub Actions, but __will not be providing formal support__. This integration is therefore considered "use at your own risk", and will rely on the open-source community to help drive fixes and feature enhancements via Issues. Occasionally, ServiceNow may choose to contribute to the open-source project to help address the highest priority Issues, and will do our best to keep the integrations updated with the latest API changes shipped with family releases. This is a good opportunity for our customers and community developers to step up and help drive iteration and improvement on these open-source integrations for everyone's benefit. 
+ServiceNow customers may request support through the [Now Support (HI) portal](https://support.servicenow.com/nav_to.do?uri=%2Fnow_support_home.do).
 
 ## Governance Model
 
-Initially, ServiceNow product management and engineering representatives will own governance of these integrations to ensure consistency with roadmap direction. In the longer term, we hope that contributors from customers and our community developers will help to guide prioritization and maintenance of these integrations. At that point, this governance model can be updated to reflect a broader pool of contributors and maintainers.
+Initially, ServiceNow product management and engineering representatives will own governance of these integrations to ensure consistency with roadmap direction. In the longer term, we hope that contributors from customers and our community developers will help to guide prioritization and maintenance of these integrations. At that point, this governance model can be updated to reflect a broader pool of contributors and maintainers. 

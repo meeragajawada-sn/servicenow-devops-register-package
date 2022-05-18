@@ -3,7 +3,7 @@ const axios = require('axios');
 
 
 (async function main() {
-    const instanceName = core.getInput('instance-name', { required: true });
+    const instanceUrl = core.getInput('instance-url', { required: true });
     const toolId = core.getInput('tool-id', { required: true });
     const username = core.getInput('devops-integration-user-name', { required: true });
     const password = core.getInput('devops-integration-user-password', { required: true });
@@ -27,7 +27,7 @@ const axios = require('axios');
         core.setFailed(`Exception parsing github context ${e}`);
     }
 
-    const endpoint = `https://${instanceName}.service-now.com/api/sn_devops/devops/package/registration?orchestrationToolId=${toolId}`;
+    const endpoint = `${instanceUrl}/api/sn_devops/devops/package/registration?orchestrationToolId=${toolId}`;
    
     let payload;
    
@@ -60,9 +60,8 @@ const axios = require('axios');
         
         let httpHeaders = { headers: defaultHeaders };
         snowResponse = await axios.post(endpoint, JSON.stringify(payload), httpHeaders);
-        console.log("ServiceNow Status: " + snowResponse.status + "; Response: " + JSON.stringify(snowResponse.data));
     } catch (e) {
-        core.setFailed(`Exception POSTing payload to register package : ${e}\n\n${JSON.stringify(payload)}\n\n${e.toJSON}`);
+        core.setFailed('ServiceNow Package is not created. Please check ServiceNow logs for more details.');
     }
     
 })();
