@@ -1,4 +1,4 @@
-# ServiceNow Register Package GitHub Action
+# ServiceNow DevOps Register Package GitHub Action
 
 This custom action needs to be added at step level in a job to register package details in ServiceNow instance.
 
