@@ -24,7 +24,7 @@ registerpackage:
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow Register Package
-        uses: ServiceNow/servicenow-devops-register-package@v1
+        uses: ServiceNow/servicenow-devops-register-package@v1.34.2
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-passwd: ${{ secrets.SN_DEVOPS_PASSWORD }}
@@ -61,7 +61,7 @@ The values for secrets should be setup in Step 1. Secrets should be created in S
 
 ### `job-name`
 
-**Required**  Display name of the job given for attribute _name_ in which _steps_ have been added for ServiceNow register package custom action.
+**Required**  Display name of the job given for attribute _name_ in which _steps_ have been added for this custom action. For example, if display name of job is _Register Package_ then job-name value must be _'Register Package'_
 
 ### `artifacts`
 
