@@ -1,7 +1,6 @@
 const core = require('@actions/core');
 const axios = require('axios');
 
-//meera
 (async function main() {
     let instanceUrl = core.getInput('instance-url', { required: true });
     const toolId = core.getInput('tool-id', { required: true });
