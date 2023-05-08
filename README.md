@@ -12,14 +12,31 @@ This custom action needs to be added at step level in a job to register package 
 On GitHub, go in your organization settings or repository settings, click on the _Secrets > Actions_ and create a new secret.
 
 Create secrets called 
+- `SN_DEVOPS_INTEGRATION_TOKEN` required for token based authentication
+- `SN_DEVOPS_USER` required for basic authentication at ServiceNow instance
+- `SN_DEVOPS_PASSWORD` required for basic authentication at ServiceNow instance
 - `SN_INSTANCE_URL` your ServiceNow instance URL, for example **https://test.service-now.com**
 - `SN_ORCHESTRATION_TOOL_ID` only the **sys_id** is required for the GitHub tool created in your ServiceNow instance
-- `SN_DEVOPS_INTEGRATION_TOKEN`
-OR 
-- `SN_DEVOPS_USER`
-- `SN_DEVOPS_PASSWORD`
 
 ## Step 3: Configure the GitHub Action if need to adapt for your needs or workflows
+## For Token based Authentication at ServiceNow instance
+```yaml
+registerpackage:
+    name: Register Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: ServiceNow Register Package
+        uses: ServiceNow/servicenow-devops-register-package@v1.34.2
+        with:
+          devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
+          instance-url: ${{ secrets.SN_INSTANCE_URL }}
+          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+          context-github: ${{ toJSON(github) }}
+          job-name: 'Register Package'
+          artifacts: '[{"name": "com:customactiondemo","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
+          package-name: 'registerpackage.war'
+```
+## For Basic Authentication at ServiceNow instance
 ```yaml
 registerpackage:
     name: Register Package
@@ -30,7 +47,6 @@ registerpackage:
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-passwd: ${{ secrets.SN_DEVOPS_PASSWORD }}
-          devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
@@ -44,15 +60,15 @@ The values for secrets should be setup in Step 1. Secrets should be created in S
 
 ### `devops-integration-user-name`
 
-**Optional**  DevOps Integration Username to ServiceNow instance. 
+**Optional**  DevOps Integration Username to ServiceNow instance for basic authentication. 
 
 ### `devops-integration-user-password`
 
-**Optional**  DevOps Integration User Password to ServiceNow instance. 
+**Optional**  DevOps Integration User Password to ServiceNow instance for basic authentication. 
 
 ### `devops-integration-token`
 
-**Optional**  DevOps Integration Token of GitHub tool created in ServiceNow instance. 
+**Optional**  DevOps Integration Token of GitHub tool created in ServiceNow instance for token based authentication. 
 
 ### `instance-url`
 
