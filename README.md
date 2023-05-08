@@ -4,7 +4,7 @@ This custom action needs to be added at step level in a job to register package 
 
 # Usage
 ## Step 1: Prepare values for setting up your secrets for Actions
-- credentials (username and password for a ServiceNow devops integration user)
+- credentials (Devops integration token of a GitHub tool created in ServiceNow DevOps or username and password for a ServiceNow devops integration user)
 - instance URL for your ServiceNow dev, test, prod, etc. environments
 - tool_id of your GitHub tool created in ServiceNow DevOps
 
@@ -12,10 +12,12 @@ This custom action needs to be added at step level in a job to register package 
 On GitHub, go in your organization settings or repository settings, click on the _Secrets > Actions_ and create a new secret.
 
 Create secrets called 
-- `SN_DEVOPS_USER`
-- `SN_DEVOPS_PASSWORD`
 - `SN_INSTANCE_URL` your ServiceNow instance URL, for example **https://test.service-now.com**
 - `SN_ORCHESTRATION_TOOL_ID` only the **sys_id** is required for the GitHub tool created in your ServiceNow instance
+- `SN_DEVOPS_INTEGRATION_TOKEN`
+OR 
+- `SN_DEVOPS_USER`
+- `SN_DEVOPS_PASSWORD`
 
 ## Step 3: Configure the GitHub Action if need to adapt for your needs or workflows
 ```yaml
@@ -28,6 +30,7 @@ registerpackage:
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-passwd: ${{ secrets.SN_DEVOPS_PASSWORD }}
+          devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
@@ -41,11 +44,15 @@ The values for secrets should be setup in Step 1. Secrets should be created in S
 
 ### `devops-integration-user-name`
 
-**Required**  DevOps Integration Username to ServiceNow instance. 
+**Optional**  DevOps Integration Username to ServiceNow instance. 
 
 ### `devops-integration-user-password`
 
-**Required**  DevOps Integration User Password to ServiceNow instance. 
+**Optional**  DevOps Integration User Password to ServiceNow instance. 
+
+### `devops-integration-token`
+
+**Optional**  DevOps Integration Token of GitHub tool created in ServiceNow instance. 
 
 ### `instance-url`
 
