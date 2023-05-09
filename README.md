@@ -26,7 +26,7 @@ registerpackage:
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow Register Package
-        uses: ServiceNow/servicenow-devops-register-package@v1.34.2
+        uses: ServiceNow/servicenow-devops-register-package@v1.39.0
         with:
           devops-integration-token: ${{ secrets.SN_DEVOPS_INTEGRATION_TOKEN }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
