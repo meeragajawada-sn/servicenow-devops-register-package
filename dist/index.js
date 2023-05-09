@@ -6013,7 +6013,7 @@ const axios = __nccwpck_require__(114);
     try {
         let snowResponse;
         const endpointv1 = `${instanceUrl}/api/sn_devops/v1/devops/package/registration?orchestrationToolId=${toolId}`;
-        const endpointv2 = `${instanceUrl}/api/sn_devops/devops/package/registration?orchestrationToolId=${toolId}`;
+        const endpointv2 = `${instanceUrl}/api/sn_devops/v2/devops/package/registration?orchestrationToolId=${toolId}`;
         let endpoint ;
         let httpHeaders ;
         if(!devopsIntegrationToken && !username && !password){
