@@ -52,10 +52,10 @@ const axios = require('axios');
         const endpointv2 = `${instanceUrl}/api/sn_devops/v2/devops/package/registration?orchestrationToolId=${toolId}`;
         let endpoint ;
         let httpHeaders ;
-        if(!devopsIntegrationToken && !username && !password){
+        if(token === '' && username === '' && password === ''){
             core.setFailed('Either secret token or integration username, password is needed for integration user authentication');
             return;
-        } else if(devopsIntegrationToken){
+        } else if(devopsIntegrationToken !== '' ){
             const defaultHeadersv2 = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -63,7 +63,7 @@ const axios = require('axios');
             };
             httpHeaders = { headers: defaultHeadersv2 };
             endpoint = endpointv2;
-        }else if(username && password){
+        }else if(username !== ''  && password !== ''){
             const token = `${username}:${password}`;
             const encodedToken = Buffer.from(token).toString('base64');
             const defaultHeadersv1 = {
